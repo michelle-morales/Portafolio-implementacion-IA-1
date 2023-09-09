@@ -14,9 +14,11 @@ Los archivos a revisar son los siguientes:
 
 Para todos los codigos se usa la misma base de datos antes mencionada.
 
-El reporte se encuentra en los archivos ipynb. Todos los códigos tienen comentarios, observaciones y descripciones de los procedimientos, así como los resultados obtenidos.
+El reporte se encuentra en los archivos ipynb. Todos los códigos tienen comentarios, observaciones y descripciones de los procedimientos, así como los resultados obtenidos. 
 
-Se eligió solo una variable para implementar el modelo, la cual fue 'Fuel Consumption Comb (mpg)' y la variable a predecir fue 'CO2 Emissions(g/km)'. 
-
-cambios (pendiente)
-readme, agregar descripciones en el colab
+Cambios realizados:
+- Se agregó información en el Readme como el nombre del dataset utilizado y se señalaron los archivos a revisar.
+- En el reporte también se agregó información del dataset, así como una breve descripción de las variables usadas para implementar el modelo. También se describió el problema y la solución implementada, que en este caso es una regresión.
+- En la implementación con framework y el refinamiento del modelo se agregó al split el conjunto de validación ya que se estaba trabajando solo con el Train y Test. Además se agregó la sección de validación del modelo para mejorar los hiperparámetros.
+- En el refinamiento se corrigió el diagnóstico de sesgo y varianza.
+- Se argumentaron los cambios al modelo y la elección del modelo final.
