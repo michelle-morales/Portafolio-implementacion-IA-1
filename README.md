@@ -19,6 +19,7 @@ El reporte se encuentra en los archivos ipynb. Todos los códigos tienen comenta
 Cambios realizados:
 - Se agregó información en el Readme como el nombre del dataset utilizado y se señalaron los archivos a revisar.
 - En el reporte también se agregó información del dataset, así como una breve descripción de las variables usadas para implementar el modelo. También se describió el problema y la solución implementada, que en este caso es una regresión.
+- Se agregaron gráficas para comparar las predicciones con los datos reales y analizar mejor el modelo.
 - En la implementación con framework y el refinamiento del modelo se agregó al split el conjunto de validación ya que se estaba trabajando solo con el Train y Test. Además se agregó la sección de validación del modelo para mejorar los hiperparámetros.
 - En el refinamiento se corrigió el diagnóstico de sesgo y varianza.
 - Se argumentaron los cambios al modelo y la elección del modelo final.
