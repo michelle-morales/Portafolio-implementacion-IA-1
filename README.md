@@ -6,9 +6,12 @@ El modelo de machine learning que se implementó fue 'Regresion lineal', cuyo ob
 Los datos utilizados fueron obtenidos de Kaggle, de una base llamada 'CO2 Emission by Vehicles', la cual está en el archivo 'co2_prueba.csv'.
 Enlace a la base de kaggle: https://www.kaggle.com/datasets/debajyotipodder/co2-emission-by-vehicles 
 
-La implementación fue sin uso de framework está en el archivo llamado 'implementacion_sinframework.ipynb'. 
-La implementación con framework está en el archivo 'implementacion_framework.ipynb'
-El refinamiento del modelo se encuentra en 'implementacion_refinamiento.ipynb'.
+Los archivos a revisar son los siguientes:
+- La implementación sin uso de framework: 'implementacion_sinframework.ipynb'. 
+- La implementación con framework: 'implementacion_framework.ipynb'
+- El refinamiento del modelo: 'implementacion_refinamiento.ipynb'.
+
+
 Para todos los codigos se usa la misma base de datos antes mencionada.
 
 El reporte se encuentra en los archivos ipynb. Todos los códigos tienen comentarios, observaciones y descripciones de los procedimientos, así como los resultados obtenidos.
