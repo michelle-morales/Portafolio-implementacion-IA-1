@@ -7,9 +7,9 @@ Los datos utilizados fueron obtenidos de Kaggle, de una base llamada 'CO2 Emissi
 Enlace a la base de kaggle: https://www.kaggle.com/datasets/debajyotipodder/co2-emission-by-vehicles 
 
 Los archivos a revisar son los siguientes:
-- La implementación sin uso de framework: 'implementacion_sinframework.ipynb'. 
-- La implementación con framework: 'implementacion_framework.ipynb'
-- El refinamiento del modelo: 'implementacion_refinamiento.ipynb'.
+- La implementación sin uso de framework: 'implementacion_sinframework.ipynb'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/implementacion_sinframework.ipynb 
+- La implementación con framework: 'implementacion_framework.ipynb'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/implementacion_framework.ipynb
+- El refinamiento del modelo: 'implementacion_refinamiento.ipynb'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/implementacion_refinamiento.ipynb 
 
 
 Para todos los codigos se usa la misma base de datos antes mencionada.
