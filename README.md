@@ -23,3 +23,9 @@ Cambios realizados:
 - En la implementación con framework y el refinamiento del modelo se agregó al split el conjunto de validación ya que se estaba trabajando solo con el Train y Test. Además se agregó la sección de validación del modelo para mejorar los hiperparámetros.
 - En el refinamiento se corrigió el diagnóstico de sesgo y varianza.
 - Se argumentaron los cambios al modelo y la elección del modelo final.
+
+En este portafolio también se encuentra la implementación del modelo de 'El precio de los autos', tanto en código como el reporte. Para este trabajo se usó la base de datos 'Precio_autos' la cual se encuentra en el archivo 'precio_autos.csv'.
+
+Archivos a revisar:
+- Reporte de implementación. 'Reporte_precio_autos.pdf'
+- Código de la implementación. 'autos.Rmd'
