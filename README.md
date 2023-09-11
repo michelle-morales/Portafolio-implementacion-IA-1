@@ -7,10 +7,8 @@ Los datos utilizados fueron obtenidos de Kaggle, de una base llamada 'CO2 Emissi
 Enlace a la base de kaggle: https://www.kaggle.com/datasets/debajyotipodder/co2-emission-by-vehicles 
 
 Los archivos a revisar son los siguientes:
-- La implementación sin uso de framework: 'implementacion_sinframework.ipynb'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/implementacion_sinframework.ipynb 
+- La implementación sin uso de framework: 'implementacion_sinframework.ipynb'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/implementacion_sinframework.ipynb
 - La implementación con framework: 'implementacion_framework.ipynb'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/implementacion_framework.ipynb
-- El refinamiento del modelo: 'implementacion_refinamiento.ipynb'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/implementacion_refinamiento.ipynb 
-
 
 Para todos los codigos se usa la misma base de datos antes mencionada.
 
@@ -24,8 +22,8 @@ Cambios realizados:
 - En el refinamiento se corrigió el diagnóstico de sesgo y varianza.
 - Se argumentaron los cambios al modelo y la elección del modelo final.
 
-En este portafolio también se encuentra la implementación del modelo de 'El precio de los autos', tanto en código como el reporte. Para este trabajo se usó la base de datos 'Precio_autos' la cual se encuentra en el archivo 'precio_autos.csv'.
+En este portafolio también se encuentra la implementación del modelo de 'El precio de los autos', tanto en código como el reporte. Para este trabajo se usó la base de datos 'Precio_autos' la cual se encuentra en el archivo 'precio_autos.csv'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/precios_autos.csv 
 
 Archivos a revisar:
 - Reporte de implementación. 'Reporte_precio_autos.pdf'
-- Código de la implementación. 'autos.Rmd'
+- Código de la implementación. 'autos.Rmd'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/autos.Rmd
