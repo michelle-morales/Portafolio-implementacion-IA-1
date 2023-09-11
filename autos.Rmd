@@ -1,0 +1,311 @@
+---
+title: "autos"
+author: "Nc"
+date: "2023-09-08"
+output: html_document
+---
+
+```{r}
+library(MASS)
+library(nortest)
+library(e1071)
+library(VGAM)
+library(dplyr)
+library(psych)
+library(GGally)
+library(ggplot2)
+library(gridExtra)
+library(lmtest)
+library(corrplot)
+library(car)
+```
+
+```{r}
+autos <- read.csv("precios_autos.csv", header=1)
+attach(autos)
+```
+```{r}
+#columnas categoricas
+price=autos$price
+fueltype=autos$fueltype
+carbody=autos$carbody
+drivewheel=autos$drivewheel
+cylindernumber=autos$cylindernumber
+enginetype=autos$enginetype
+enginelocation=autos$enginelocation
+
+
+```
+Anovas
+
+alpha=0.05
+Todas las variables fueron significativas pero específicamente 3 fueron aún más significativas
+```{r}
+A<-aov(price~fueltype+carbody+drivewheel+cylindernumber+enginetype+enginelocation)
+summary(A)
+```
+```{r}
+#variables numericas que se usaran para la regresion multiple
+wheelbase=autos$wheelbase
+enginesize=autos$enginesize
+city=autos$citympg
+```
+Nuevo dataset solo con las variables elegidas
+
+```{r}
+df = subset(autos, select = c('carbody', 'drivewheel','cylindernumber','wheelbase','enginesize','citympg','price'))
+
+#cambiar variables categoricas a numericas
+df$cylindernumber <- gsub("four", 4, df$cylindernumber)
+df$cylindernumber <- gsub("five", 5, df$cylindernumber)
+df$cylindernumber <- gsub("two", 2, df$cylindernumber)
+df$cylindernumber <- gsub("three", 3, df$cylindernumber)
+df$cylindernumber <- gsub("twelve", 12, df$cylindernumber)
+df$cylindernumber <- gsub("six",6, df$cylindernumber)
+df$cylindernumber <- gsub("eight", 8, df$cylindernumber)
+
+df$cylindernumber <- as.integer(df$cylindernumber)
+
+```
+```{r}
+summary(df)
+```
+Histogramas.
+
+Se hizo solo con las variaboes elegidas para ver su distribución y analizar si era necesario aplicar una transformación.
+```{r}
+multi.hist(x=select_if(df, is.numeric), dcol = c("blue", "red"), dlty = c("dotted","solid"), main=, globa = F)
+
+```
+Como las variables no siguen una distribucion normal se opto por la normalizacion de variables numericas con la transformación de boxcox.
+
+lambda X1 = -2
+
+lambda X2 = -0.02
+
+lambda X3 = -0.95
+
+
+```{r}
+X1 = df$wheelbase
+X2 = df$citympg
+X3 = df$enginesize
+#X4 = df$cylindernumber
+
+bc = boxcox((X1)~1)
+bc$x[which.max(bc$y)]
+
+bc = boxcox((X2)~1)
+bc$x[which.max(bc$y)]
+
+bc = boxcox((X3)~1)
+bc$x[which.max(bc$y)]
+
+#bc = boxcox((X4)~1)
+#bc$x[which.max(bc$y)]
+```
+```{r}
+wheelbase_t=((X1)^(-2)-1)/(-2)
+city_t=((X2)^(-0.02)-1)/(-0.02)
+enginesize_t=((X3)^(-0.95)-1)/(-0.95)
+#cylinder_t=((X4)^(-0.38)-1)/(-0.38)
+
+#par(mfrow=c(4,1))
+hist(wheelbase_t,col=0,main="Histograma de wheelbase")
+hist(city_t,col=0,main="Histograma de citympg")
+hist(enginesize_t,col=0,main="Histograma de enginesize")
+#hist(cylinder_t,col=0,main="Histograma de cylindernumber")
+```
+En las pruebas de normalidad se obtuvieron p-values muy pequeños, lo que significa que no pasaron la prueba, no tienen normalidad.
+
+```{r}
+#pruebas de normalidad
+D1=ad.test(wheelbase_t)
+#D0$p.value
+D2=ad.test(city_t)
+#D1$p.value
+D3=ad.test(enginesize_t)
+#D2$p.value
+#D4=ad.test(cylinder_t)
+```
+```{r}
+m0=round(c(as.numeric(summary(wheelbase_t)),D1$p.value),5)
+m1=round(c(as.numeric(summary(city_t)),D2$p.value),5)
+m2=round(c(as.numeric(summary(enginesize_t)),D3$p.value),5)
+#m3=round(c(as.numeric(summary(cylinder_t)),D4$p.value),5)
+```
+```{r}
+m<-as.data.frame(rbind(m0,m1,m2))
+row.names(m)=c("wheelbase","citympg","enginesize")
+names(m)=c("Minimo","Q1","Mediana","Media","Q3","Maximo","Valor p")
+m
+```
+Buscar valores atipicos
+```{r}
+q1=quantile(X1,0.25)  #Cuantil 1 de la variable X
+q3=quantile(X1,0.75)
+ri=IQR(X1)    #Rango intercuartÃ­lico de X
+par(mfrow=c(2,1))  #Matriz de grÃ¡ficos de 2x1
+boxplot(X1,horizontal=TRUE)
+abline(v=q3+1.5*ri,col="red")
+abline(v=q3+3*ri,col="blue")
+
+q1=quantile(X2,0.25)  #Cuantil 1 de la variable X
+q3=quantile(X2,0.75)
+ri=IQR(X2)    #Rango intercuartÃ­lico de X
+par(mfrow=c(2,1))  #Matriz de grÃ¡ficos de 2x1
+boxplot(X2,horizontal=TRUE)
+abline(v=q3+1.5*ri,col="red")
+abline(v=q3+3*ri,col="blue")
+
+q1=quantile(X3,0.25)  #Cuantil 1 de la variable X
+q3=quantile(X3,0.75)
+ri=IQR(X3)    #Rango intercuartÃ­lico de X
+par(mfrow=c(2,1))  #Matriz de grÃ¡ficos de 2x1
+boxplot(X3,horizontal=TRUE)
+abline(v=q3+1.5*ri,col="red")
+abline(v=q3+3*ri,col="blue")
+
+```
+Quitar valores atípicos para repetir la transformación y ver si mejora la normalidad.
+```{r}
+X1 = df$wheelbase
+X2 = df$citympg
+X3 = df$enginesize
+#quitamos valores atipicos
+q1=quantile(X1,0.25)  #Cuantil 1 de la variable X
+q3=quantile(X1,0.75)
+ri=IQR(X1)
+
+M= df[df$wheelbase<q3+1.5*ri,]
+X1=M$wheelbase
+#summary(X1)
+
+q1=quantile(X2,0.25)  #Cuantil 1 de la variable X
+q3=quantile(X2,0.75)
+ri=IQR(X2)
+
+M= df[df$citympg<q3+1.5*ri,]
+X2=M$citympg
+#summary(X1)
+
+q1=quantile(X3,0.25)  #Cuantil 1 de la variable X
+q3=quantile(X3,0.75)
+ri=IQR(X3)
+
+M= df[df$enginesize<q3+1.5*ri,]
+X3=M$enginesize
+```
+Se repite el boxcox.
+
+lambda X1: -2
+
+lambda X2: 0.22
+
+L¿lambda X3: -0.46
+```{r}
+bc = boxcox((X1)~1)
+bc$x[which.max(bc$y)]
+
+bc = boxcox((X2)~1)
+bc$x[which.max(bc$y)]
+
+bc = boxcox((X3)~1)
+bc$x[which.max(bc$y)]
+```
+```{r}
+wheelbase_t=((X1)^(-2)-1)/(-2)
+city_t=((X2)^(0.22)-1)/(0.22)
+enginesize_t=((X3)^(-0.46)-1)/(0.46)
+
+#par(mfrow=c(3,1))
+hist(wheelbase_t,col=0,main="Histograma de wheelbase")
+hist(city_t,col=0,main="Histograma de citympg")
+hist(enginesize_t,col=0,main="Histograma de enginesize")
+```
+Si bien el p-value sigue siendo muy pequeño, en el histograma podemos ver un comportamiento un poco más parecido al normal.
+```{r}
+#pruebas de normalidad
+D1=ad.test(wheelbase_t)
+#D0$p.value
+D2=ad.test(city_t)
+#D1$p.value
+D3=ad.test(enginesize_t)
+#D2$p.value
+```
+```{r}
+m0=round(c(as.numeric(summary(wheelbase_t)),D1$p.value),5)
+m1=round(c(as.numeric(summary(city_t)),D2$p.value),5)
+m2=round(c(as.numeric(summary(enginesize_t)),D3$p.value),5)
+```
+```{r}
+m<-as.data.frame(rbind(m0,m1,m2))
+row.names(m)=c("wheelbase","citympg","enginesize")
+names(m)=c("Minimo","Q1","Mediana","Media","Q3","Maximo","Valor p")
+m
+```
+Aplicamos la transformación en el dataset para proceder con la regresión.
+```{r}
+#base sin datos atipicos: M
+
+# Aplicar la transformación a la columna wheelbase
+M$wheelbase <- ((M$wheelbase)^(-2) - 1) / (-2)
+
+# Aplicar la transformación a la columna citympg
+M$citympg <- ((M$citympg)^(0.22) - 1) / (0.22)
+
+# Aplicar la transformación a la columna enginesize
+M$enginesize <- ((M$enginesize)^(-0.46) - 1) / (0.46)
+
+
+attach(M)
+```
+
+Modelo:
+
+La variable dependiente es price y en el modelo se puso en funcion de las seis variables elegidas anteriormente.
+
+
+El pvalue es < 2.2e-16 lo que indica que el modelo es significativo
+```{r}
+
+modelo <- lm(M$price ~ M$wheelbase + M$carbody + M$enginesize+
+               M$citympg+ M$drivewheel + M$cylindernumber)
+summary(modelo)
+```
+Se hace un step() para probar la regresión con más y menos variables a ver si el modelo mejora.
+
+Al final obtenemos un modelo con solo cinco variables.
+```{r}
+step(object = modelo, direction = "both", trace = 1)
+```
+Se guarda el modelo con cinco variables.
+
+```{r}
+modelo2 <- lm(M$price ~ M$wheelbase + M$carbody + M$enginesize+
+               M$citympg + M$cylindernumber)
+summary(modelo2)
+```
+
+Validacion del modelo
+
+Distribucion normal de residuos (Q-Q Plot). Como se puede observar los residuos no se ajustan a la linea y en el shapiro test se obtiene un p-value muy pequeño, esto quiere decir que no hay normalidad en los residuos.
+```{r}
+shapiro.test(modelo2$residuals)
+#GrÃ¡ficas auxiliares:
+qqnorm(modelo2$residuals)
+qqline(modelo2$residuals)
+hist(modelo2$residuals,freq=FALSE,ylim=c(0,0.0002),xlab="Residuos",col=0)
+lines(density(modelo2$residual),col="red")
+#x = seq(1.48,1.81,0.01)
+curve(dnorm(x,mean=mean(modelo2$residuals),sd=sd(modelo2$residuals)), from=min(modelo2$residuals),
+to=max(modelo2$residuals), add=TRUE, col="blue",lwd=2)
+```
+Homocedasticida
+
+En el gráfico obsrvamos que si hay independencia en los datos pero hay una ligera heterocedasticidad.
+```{r}
+plot(A$fitted.values,A$residuals)
+abline(h=0, col="blue")
+```
+
