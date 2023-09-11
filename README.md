@@ -25,5 +25,5 @@ Cambios realizados:
 En este portafolio también se encuentra la implementación del modelo de 'El precio de los autos', tanto en código como el reporte. Para este trabajo se usó la base de datos 'Precio_autos' la cual se encuentra en el archivo 'precio_autos.csv'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/precios_autos.csv 
 
 Archivos a revisar:
-- Reporte de implementación. 'Reporte_precio_autos.pdf'
+- Reporte de implementación. 'Reporte_precio_autos.pdf'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/Reporte_precio_autos.pdf 
 - Código de la implementación. 'autos.Rmd'. https://github.com/michelle-morales/Portafolio-implementacion-IA-1/blob/main/autos.Rmd
